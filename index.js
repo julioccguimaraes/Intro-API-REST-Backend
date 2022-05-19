@@ -74,7 +74,8 @@ const DB = {
 
 app.get("/game", auth, (req, res) => {
     res.statusCode = 200
-    res.json(req.user) // essa variável foi criada no middleware
+    //res.json(req.user) // essa variável foi criada no middleware
+    res.json(DB)
 })
 
 
