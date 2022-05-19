@@ -2,7 +2,7 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 const jwt = require("jsonwebtoken")
-const env = require("./.env")
+const env = require("./.env") // deve-se criar esse arquivo com variável contendo a chave usada pelo jwt
 
 const app = new express()
 
