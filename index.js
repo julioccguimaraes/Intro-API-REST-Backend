@@ -141,7 +141,7 @@ app.put("/game/:id", auth, (req, res) => {
     }
 })
 
-app.post("/auth", auth, (req, res) => {
+app.post("/auth", (req, res) => {
     const { email, password } = req.body
 
     if (email) {
