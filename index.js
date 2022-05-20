@@ -75,7 +75,7 @@ const DB = {
 app.get("/game", auth, (req, res) => {
     res.statusCode = 200
     //res.json(req.user) // essa variável foi criada no middleware
-    res.json(DB)
+    res.json({games: DB.games, _links: HATEOAS})
 })
 
 
@@ -86,8 +86,26 @@ app.get("/game/:id", (req, res) => {
         const game = DB.games.find(g => g.id == parseInt(req.params.id))
 
         if (game) {
+            const HATEOAS = [
+                {
+                    "href" : "http://localhost:3000/game/" + game.id, 
+                    "method": "DELETE",
+                    "rel": "delete_game"
+                },
+                {
+                    "href" : "http://localhost:3000/game/" + game.id, 
+                    "method": "GET",
+                    "rel": "get_game"
+                },
+                {
+                    "href" : "http://localhost:3000/games", 
+                    "method": "GET",
+                    "rel": "get_all_games"
+                }
+            ]
+
             res.statusCode = 200
-            res.json(game)
+            res.json({game, _links: HATEOAS})
         } else {
             res.sendStatus(404)
         }
@@ -128,13 +146,36 @@ app.put("/game/:id", auth, (req, res) => {
         const game = DB.games.find(g => g.id == parseInt(req.params.id))
 
         if (game) {
+            const HATEOAS = [
+                {
+                    "href" : "http://localhost:3000/game/" + game.id, 
+                    "method": "DELETE",
+                    "rel": "delete_game"
+                },
+                {
+                    "href" : "http://localhost:3000/game/" + game.id, 
+                    "method": "PUT",
+                    "rel": "edit_game"
+                },
+                {
+                    "href" : "http://localhost:3000/game/" + game.id, 
+                    "method": "GET",
+                    "rel": "get_game"
+                },
+                {
+                    "href" : "http://localhost:3000/games", 
+                    "method": "GET",
+                    "rel": "get_all_games"
+                }
+            ]
             const { title, year, price } = req.body
 
             game.title = title
             game.year = year
             game.price = price
 
-            res.sendStatus(200)
+            res.statusCode = 200
+            res.json({game, _links: HATEOAS})
         } else {
             res.sendStatus(404)
         }
